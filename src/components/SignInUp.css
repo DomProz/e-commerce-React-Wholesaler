@@ -9,6 +9,7 @@ body {
   padding: 40px;
   transform: translate(-50%, -50%);
   background-color: #242026;
+  color: #fff;
   box-shadow: 0 15px 25px rgba(143, 124, 236, 0.7);
   border-radius: 10px;
 }
@@ -40,8 +41,9 @@ body {
   pointer-events: none;
   transition: 0.5s;
 }
-.login-box .user-box input:focus ~ label,
-.login-box .user-box input:valid ~ label {
+
+.login-box .user-box input:focus + label,
+.login-box .user-box input:valid + label {
   top: -85px;
   left: 0;
   color: #8f7cec;

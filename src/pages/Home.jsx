@@ -1,14 +1,19 @@
+import { SignalCellular0Bar } from "@material-ui/icons";
 import React from "react";
 import Annoucment from "../components/Annoucment";
+import Categories from "../components/Categories";
+
 import Navbar from "../components/Navbar";
-import Navbar2 from "../components/Navbar2";
+
+import Slider from "../components/Slider";
 
 const Home = () => {
   return (
     <div>
       <Annoucment />
       <Navbar />
-      <Navbar2 />
+      <Slider />
+      <Categories />
     </div>
   );
 };

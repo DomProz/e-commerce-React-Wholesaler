@@ -1,7 +1,7 @@
 import React from "react";
-import "./Navbar2.css";
+import "./SignInUp.css";
 
-const Navbar2 = () => {
+const SignIn = () => {
   return (
     <div className="login-box">
       <h2>Login</h2>
@@ -19,7 +19,7 @@ const Navbar2 = () => {
             Submit
           </a>
           <div id="register">
-            Don't have an account ?<a href="/#">Register</a>
+            Don't have an account ?<a href="/SignUp"> Register</a>
           </div>
         </div>
       </form>
@@ -27,4 +27,4 @@ const Navbar2 = () => {
   );
 };
 
-export default Navbar2;
+export default SignIn;
