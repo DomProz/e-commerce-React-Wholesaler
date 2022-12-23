@@ -39,3 +39,17 @@ export const categories = [
     title: "Wykończenie",
   },
 ];
+export const popularProducts = [
+  {
+    id: 1,
+    img: "https://image.ceneostatic.pl/data/products/45005410/i-neo-tools-233-el-klucze-nasadowe-08-681.jpg",
+  },
+  {
+    id: 2,
+    img: "https://image.ceneostatic.pl/data/article_picture/c1/a3/cfbd-f1e2-4a2c-b697-3e04a5825adf_large.jpg",
+  },
+  {
+    id: 3,
+    img: "https://media.castorama.pl/media/catalog/product/P/l/Plyta_gipsowa_zwykla_Norgips_1200_x_2600_x_12_5_mm_3_12_m2-945173-196065.webp",
+  },
+];
