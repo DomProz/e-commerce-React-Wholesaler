@@ -1,4 +1,3 @@
-import { SignalCellular0Bar } from "@material-ui/icons";
 import React from "react";
 import Annoucment from "../components/Annoucment";
 import Categories from "../components/Categories";
