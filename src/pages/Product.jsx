@@ -11,6 +11,11 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
+import { useLocation } from "react-router-dom";
+import { publicRequest } from "../requestMethods";
+import { useEffect, useState } from "react";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -62,6 +67,9 @@ const Brand = styled.span`
   font-weight: 700;
   flex: 2;
   font-size: 40px;
+`;
+const BrandText = styled.span`
+  text-transform: uppercase;
 `;
 
 const AddContainer = styled.div`
@@ -115,6 +123,34 @@ const Guarantee = styled.div`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch {}
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else if (type === "inc") {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(addProduct({ ...product, quantity }));
+  };
+
   return (
     <Container>
       <Navbar />
@@ -122,40 +158,24 @@ const Product = () => {
 
       <Wrapper>
         <ImgContainer>
-          <Image src="https://assets.stickpng.com/images/5c7659c7003fa702a1d278f1.png" />
+          <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Długie szczypce kątowe</Title>
-          <Desc>
-            Wysoce specjalistyczne szczypce modelarskie o profilowanych
-            uchwytach oraz korpusie wykonanym ze stali chromowo-wanadowej,
-            dzięki czemu cechują się dobra odpornością na korozje oraz świetną
-            trwałością i wytrzymałością ogólną. Uchwyty posiadają wykończenie ze
-            specjalnego tworzywa sztucznego, co sprawia, iż chwytane elementy
-            nie ulegają zarysowaniu, uszkodzeniom mechanicznym czy
-            odkształceniom. Narzędzie cechuje się świetną ergonomią pracy (także
-            ze względu na dwustopniową regulację rozwartości) oraz bardzo wysoką
-            jakością wykonania. Co więcej, ramiona prezentowanych szczypiec
-            zostały pokryte specjalną żywicą (w kolorze niebieskim), która
-            pozwala na pewniejszy chwyt narzędzia oraz umożliwia większy komfort
-            pracy. Producent podkreśla, że elementy żywiczne można bez problemu
-            usunąć. Szczypce nadają się idealnie do pracy z modelami R/C oraz
-            modelami z serii Mini 4WD firmy Tamiya. Jednak ze względu na swoje
-            właściwości mogą również znaleźć zastosowanie przy pracy z modelami
-            plastikowymi lub kartonowymi. Produkt powiązany to Non-Scratch
-            Pliers.
-          </Desc>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
           <BrandContainer>
-            <Price>100 zł</Price>
-            <Brand>Marka:Tamyia</Brand>
+            <Price>{product.price} zł</Price>
+            <Brand>
+              Marka: <BrandText>{product.brand}</BrandText>
+            </Brand>
           </BrandContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>DO KOSZYKA</Button>
+            <Button onClick={handleClick}>DO KOSZYKA</Button>
           </AddContainer>
           <GuaranteeContainer>
             <Guarantee>

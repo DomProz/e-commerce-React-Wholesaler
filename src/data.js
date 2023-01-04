@@ -26,17 +26,20 @@ export const categories = [
   {
     id: 1,
     img: "https://www.incimages.com/uploaded_files/image/1920x1080/getty_494605768_2000133320009280151_316966.jpg",
-    title: "Narzędzia",
+    title: "Ogród",
+    cat: "ogrod",
   },
   {
     id: 2,
     img: "https://i.gremicdn.pl/image/free/b376e079e0b06eb6293187df5cfaba3b/?t=resize:fill:1200:716,enlarge:1",
-    title: "Materiały",
+    title: "Budowa i Remont",
+    cat: "budowa",
   },
   {
     id: 3,
     img: "https://www.hurtowniabudowlana.eu/images/design/materialy-wykonczeniowe.webp",
     title: "Wykończenie",
+    cat: "wykonczenie",
   },
 ];
 export const popularProducts = [

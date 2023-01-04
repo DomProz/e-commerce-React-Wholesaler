@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Annoucment from "../components/Annoucment";
 import Footer from "../components/Footer";
@@ -41,26 +43,35 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const location = useLocation();
+  const cat = location.pathname.split("/")[2];
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("newest");
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    });
+  };
+  console.log(filters);
   return (
     <Container>
       <Navbar />
       <Annoucment />
-      <Title>Wykończenie</Title>
+      <Title>{cat}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filtruj Produkty:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Podkategoria
-            </Option>
+          <Select name="subcat" onChange={handleFilters}>
+            <Option disabled>Podkategoria</Option>
             <Option>Drewno</Option>
-            <Option>Płytki</Option>
+            <Option>Narzedzia</Option>
             <Option>Malowanie</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              Kolor
-            </Option>
+          <Select name="color" onChange={handleFilters}>
+            <Option disabled>Kolor</Option>
+            <Option>Brak</Option>
             <Option>Biały</Option>
             <Option>Brązowy</Option>
             <Option>Czarny</Option>
@@ -68,14 +79,14 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sortuj Produkty:</FilterText>
-          <Select>
-            <Option selected>Najnowsze</Option>
-            <Option>Cena (w górę)</Option>
-            <Option>Cena (w dół)</Option>
+          <Select onChange={(e) => setSort(e.target.value)}>
+            <Option value="newest">Najnowsze</Option>
+            <Option value="asc">Cena (w górę)</Option>
+            <Option value="desc">Cena (w dół)</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products cat={cat} filters={filters} sort={sort} />
       <Newsletter />
       <Footer />
     </Container>
