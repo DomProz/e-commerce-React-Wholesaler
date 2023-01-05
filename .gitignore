@@ -17,7 +17,12 @@
 .env.development.local
 .env.test.local
 .env.production.local
-.env
+#.env REACT_APP_STRIPE STRIPE_KEY JWT_SEC MONGO_URL
+.env.REACT_APP_STRIPE
+.env.PASS_SEC
+.env.JWT_SEC
+.envSTRIPE_KEY
+.env.MONGO_URL
 
 npm-debug.log*
 yarn-debug.log*
