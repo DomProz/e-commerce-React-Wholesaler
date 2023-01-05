@@ -95,7 +95,9 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>HurtBud.</Logo>
+          <Link to="/">
+            <Logo>HurtBud.</Logo>
+          </Link>
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>

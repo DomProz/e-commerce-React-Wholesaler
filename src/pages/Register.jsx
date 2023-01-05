@@ -1,9 +1,9 @@
 import React from "react";
+import "./SignInUp.css";
 import styled from "styled-components";
 
 import Navbar from "../components/Navbar";
-import "./SignInUp.css";
-import { mobile } from "../responsive";
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -13,29 +13,37 @@ const Wrapper = styled.div`
   padding: 20px;
   width: 25%;
 `;
-const SignIn = () => {
+const Register = () => {
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <div className="login-box">
-          <h2>Login</h2>
+          <h2>Register</h2>
           <form>
             <div className="user-box">
-              <input type="text" name="" />
+              <input type="text" name="Name" />
+              <label>Name</label>
+
+              <input type="text" name="LastName" />
+              <label>LastName</label>
+            </div>
+            <div className="user-box">
+              <input type="text" name="Username" />
               <label>Username</label>
             </div>
             <div className="user-box">
-              <input type="password" name="" />
+              <input type="password" name="Password" />
               <label>Password</label>
+            </div>
+            <div className="user-box">
+              <input type="password" name="ConfirmPassword" />
+              <label>Confirm Password</label>
             </div>
             <div className="button-form">
               <a id="submit" href="/#">
                 Submit
               </a>
-              <div id="register">
-                Don't have an account ?<a href="./SignUp"> Register</a>
-              </div>
             </div>
           </form>
         </div>
@@ -44,4 +52,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Register;

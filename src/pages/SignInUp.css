@@ -49,13 +49,15 @@
 }
 #submit {
   padding: 10px 20px;
-  color: #cbbddb;
+  color: #8f7cec;
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
   overflow: hidden;
   transition: 0.5s;
+  background-color: #242026;
   letter-spacing: 4px;
+
   border: 1px solid #8f7cec;
   margin: auto;
 }

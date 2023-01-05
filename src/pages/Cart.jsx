@@ -1,10 +1,16 @@
 import { Add, Remove } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Annoucment from "../components/Annoucment";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import StripeCheckout from "react-stripe-checkout";
+import { userRequest } from "../requestMethods";
+import { Navigate, useNavigate } from "react-router-dom";
+
+const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -141,6 +147,31 @@ const SummaryButton = styled.button`
 `;
 
 const Cart = () => {
+  // const KEY = "pk_test_51MMAfhDfP8UTKq3HYORifDXe9kLN2aM6LXObPET4VpXLMPxSNft6ZVTCMyVQ2m3ByF2bZQSKyyhFly2iPvUvK6gb002l7rfnW0";
+
+  const cart = useSelector((state) => state.cart);
+  const delivery = 15;
+  const history = useNavigate();
+  const [stripeToken, setStripeToken] = useState(null);
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: (cart.total + delivery) * 100,
+        });
+        history.push("/success", {
+          stripeData: res.data,
+          products: cart,
+        });
+      } catch {}
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total, history]);
+
   return (
     <Container>
       <Annoucment />
@@ -158,65 +189,62 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://image.ceneostatic.pl/data/article_picture/c1/a3/cfbd-f1e2-4a2c-b697-3e04a5825adf_large.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Produkt: </b> Farba
-                  </ProductName>
-                  <ProductId>
-                    <b>ID: </b>3214
-                  </ProductId>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>80 zł</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Product>
-              <ProductDetail>
-                <Image src="https://image.ceneostatic.pl/data/article_picture/c1/a3/cfbd-f1e2-4a2c-b697-3e04a5825adf_large.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Produkt: </b> Farba
-                  </ProductName>
-                  <ProductId>
-                    <b>ID: </b>3214
-                  </ProductId>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>80 zł</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product) => (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Produkt: </b> {product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID: </b>
+                      {product._id}
+                    </ProductId>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Remove />
+                  </ProductAmountContainer>
+                  <ProductPrice>
+                    {product.price * product.quantity} zł
+                  </ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
+
             <Hr />
           </Info>
           <Summary>
             <SummaryTitle>Podsumowanie</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Razem: </SummaryItemText>
-              <SummaryItemPrice>160 zł</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Dostawa: </SummaryItemText>
-              <SummaryItemPrice>15 zł</SummaryItemPrice>
+              <SummaryItemPrice>{delivery} zł</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Całkowicie</SummaryItemText>
-              <SummaryItemPrice>175 zł</SummaryItemPrice>
+              <SummaryItemPrice>zl {cart.total + delivery}</SummaryItemPrice>
             </SummaryItem>
-            <SummaryButton>Przejdz do Płatności</SummaryButton>
+            <SummaryItem>
+              <StripeCheckout
+                name="HurtBud."
+                billingAddress
+                shippingAddress
+                description={`Do zaplaty: ${cart.total + delivery} zł`}
+                amount={(cart.total + delivery) * 100}
+                token={onToken}
+                stripeKey={KEY}
+              >
+                <SummaryButton>Przejdź do płatności</SummaryButton>
+              </StripeCheckout>
+            </SummaryItem>
           </Summary>
         </Bottom>
       </Wrapper>
