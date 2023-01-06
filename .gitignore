@@ -23,7 +23,7 @@
 .env.JWT_SEC
 .envSTRIPE_KEY
 .env.MONGO_URL
-
+.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
