@@ -80,6 +80,9 @@ const MenuItem = styled.div`
     marginLeft: "10px",
   })}
 `;
+const linkStyle = {
+  "text-decoration": "none",
+};
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
@@ -95,14 +98,14 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Link to="/">
+          <Link to="/" style={linkStyle}>
             <Logo>HurtBud.</Logo>
           </Link>
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>
           <MenuItem>SIGN IN</MenuItem>
-          <Link to="/Cart">
+          <Link to="/Cart" style={linkStyle}>
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">
                 <ShoppingCartOutlined />

@@ -20,7 +20,7 @@
 
 #REACT_APP_STRIPE
 .env.REACT_APP_STRIPE
-
+.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
